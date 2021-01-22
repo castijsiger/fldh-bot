@@ -8,9 +8,9 @@ const TOKEN = process.env.TOKEN;
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.bllyu.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-const express = require('express')
-const app = express()
-const port = 8080
+const express = require('express');
+const app = express();
+const port = process.env.port || 8080;
 
 app.get('/', (req, res) => {
   res.send('Healthy!')
@@ -57,7 +57,6 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
   else{
     //find user
     client.db().collection('member_activity').find({name: newState.user.id}).toArray(function(err, result){
-      console.log(newState.user);
       if(err) throw err;
       if(result.length > 0){
         const newCount = result[0].channelsJoined + 1;
