@@ -55,5 +55,6 @@
     "RankAfterNameChange": "Private",
     "DefaultRole": "Recruit",
     "CongratulationsChannel" :"706146211307978775",
-    "UserLogsChannel": "800752763637989376"
+    "UserLogsChannel": "800752763637989376",
+    "preFix": "!"
 }

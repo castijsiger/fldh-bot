@@ -1,9 +1,14 @@
 require('dotenv').config();
+
+
 const Discord = require('discord.js');
 const {MongoClient} = require('mongodb');
 const config = require('./config.json');
+const fs = require('fs');
 
 const bot = new Discord.Client();
+bot.commands = new Discord.Collection();
+
 const TOKEN = process.env.TOKEN;
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.bllyu.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
@@ -11,6 +16,26 @@ const client = new MongoClient(uri);
 const express = require('express');
 const app = express();
 const port = process.env.port || 8080;
+
+//loading in files
+
+fs.readdir("./commands/", (err, files)=> {
+  if (err) console.log(err);
+
+  var jsFiles = files.filter(f => f.split(".").pop() === "js");
+
+  if (jsFiles.length <= 0) {
+      console.log("Kon geen files vinden!");
+      return;
+  }
+
+  jsFiles.forEach((f,i)=>{
+      var fileGet = require(`./commands/${f}`);
+      console.log(`The file ${f} has been loaded in`);
+      bot.commands.set(fileGet.help.name, fileGet);
+  })
+});
+
 
 app.get('/', (req, res) => {
   res.send('Healthy!')
@@ -94,101 +119,18 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
 });
 
 bot.on('message', msg => {
-  if(msg.content.startsWith('!coin-flip')){
-    msg.channel.send(Math.round(Math.random()) == 1 ? "Head" : "Tails");
-  }
-
-  if(msg.content.startsWith('!random-map')){
-    let message = msg.toString();
-    console.log(`message = ${message}`);
-    let params = message.split(" ");
-    let maps = ["Woods","Reserve","Interchange","Customs","Factory","Shoreline","Labs"];
-
-    if(params[1]){
-      let excludedMaps = params[1].split(",");
-      msg.channel.send(`Maps excluded : ${excludedMaps}`);
-
-      excludedMaps.forEach((map) => {
-        var index = maps.indexOf(map);
-        if (index !== -1) {
-          maps.splice(index, 1);
-        
-        }
-        else{
-          msg.channel.send(`Make sure your write all maps that you want to include with a capital and correctly. Options: Woods, Reserve, Interchange, Customs, Factory, Shoreline, Labs`);
-        }
-      })
-    }
-   
-  
-    msg.channel.send(maps[Math.floor(Math.random() * maps.length)]);
-    
-  }
-
-  if(msg.content.startsWith('!russian-roulette')){
-      msg.channel.send("Lets see whose gonna die.")
-      const list = bot.guilds.get("706146210876096645");
-
-      setTimeout(() => {
-        msg.channel.send("1...")
-      }, 1000);
-
-      setTimeout(() => {
-        msg.channel.send("2...")
-      }, 2000);
-
-      setTimeout(() => {
-        msg.channel.send("3...")
-      }, 3000);
-
-      setTimeout(()=> {
-        //msg.channel.send(`${list.members.random().nickname} haha you're dead :D`);
-        let members = Array.from(list.members);
-        let randomMember = members[Math.floor(Math.random() * members.length)];
-        msg.channel.send(`Hihihihi ${randomMember[1].user.username} you're dead :D piew piew.`);
-        
-      }, 4000)
-  } 
-
-  if(msg.content.startsWith('!alive')){
-    msg.channel.send("Yes im alive what about you :D?");
-  }
-
-  if(msg.content.startsWith('!permission-check')){
-    var allowedToRunCommand= ['Chief Admin'];
-    console.log(msg.member.highestRole);
-    if(msg.member.highestRole.name !== "Chief Admin" && msg.member.highestRole.name !== "Kolonel - Senior Admin"){
-      msg.channel.send("You dont have permissions to run this command");
-    }
-    else{
-      msg.channel.send("I'll start looping through the members now... :)");
-      const list = bot.guilds.get("706146210876096645");
-      var giveawayRole = bot.guilds.get("706146210876096645").roles.find(role => role.name === "Giveaways");
-  
-      list.members.forEach(member => {
-        var allowedGiveaways = ['Kolonel - Senior Admin','Chief Admin','Sherpa','Luitenant','Sergeant','Korporaal'];
-        allowedGiveaways.forEach(value => {
-          if(member.highestRole.name === value){
-            found = true;
-            msg.channel.send(`Added perm giveaways to ${member.nickname}`);
-            member.addRole(giveawayRole).then((response)=>{
-              console.log(response)
-            }).catch(e => {
-              console.log(e)
-            });
-          }
-  
-        })
-  
-        if(!found){
-          msg.channel.send(`Removed perm giveaways from ${member.nickname}`);
-          member.removeRole(giveawayRole)
-        }
-      })
-
-      msg.channel.send("I'm done checking permissions. :)");
-    }
-  }
+  //command prefix.
+  var prefix = config.preFix;
+  //messageArray split on space.
+  var messageArray = msg.content.split(" ");
+  // splice the command
+  var command =  messageArray[0];
+  //splice the arguments
+  var arguments = messageArray.slice(1);
+  //load in the command
+  var commands = bot.commands.get(command.slice(prefix.length));
+  //execute command
+  if (commands) commands.run(bot,msg,arguments);
 });
 
 bot.on('guildMemberUpdate', (oldMember, newMember) =>{
