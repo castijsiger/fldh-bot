@@ -8,6 +8,18 @@ const TOKEN = process.env.TOKEN;
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.bllyu.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
+const express = require('express')
+const app = express()
+const port = 8080
+
+app.get('/', (req, res) => {
+  res.send('Healthy!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+})
+
 bot.login(TOKEN);
 
 bot.on('ready', () => {
