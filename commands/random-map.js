@@ -30,7 +30,7 @@ module.exports.run = async(bot,msg,args) => {
         case "interchange":
             return msg.channel.send(`Need a Graphics card? A tetris perhaps?! Go find them on ${capitalize(chosenMap)}!`);
         case "labs":
-            return msg.channel.send(`Wanna get killed by angry 12 year olds, that needs programs to win? You can find them on ${capitalize(chosenMap)}!`);
+            return msg.channel.send(`Wanna get killed by angry 12 year olds, that needs a third party program to win? You can find them on ${capitalize(chosenMap)}!`);
         case "shoreline":
             return msg.channel.send(`Chilling in the resort? Laying down on the beds. Lets go sleep at ${capitalize(chosenMap)}!`);
     }
