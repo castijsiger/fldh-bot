@@ -83,7 +83,10 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
 });
 
 bot.on('message', msg => {
-  
+  if(msg.content.startsWith('!coin-flip')){
+    msg.channel.send(Math.round(Math.random()) == 1 ? "Head" : "Tails");
+  }
+
   if(msg.content.startsWith('!random-map')){
     let message = msg.toString();
     console.log(`message = ${message}`);
