@@ -1,0 +1,59 @@
+{
+    "Ranks" : [
+        {
+            "name" : "Recruit",
+            "level" : 0,
+            "channelsJoined": null
+        },
+        {
+            "name" : "Private",
+            "level" : 1,
+            "channelsJoined": null
+        },
+        {
+            "name" : "Corporal",
+            "level" : 2,
+            "channelsJoined": 50
+        },
+        {
+            "name" : "Sergeant",
+            "level" : 3,
+            "channelsJoined": 200
+        },
+        {
+            "name" : "Master sergeant",
+            "level" : 4,
+            "channelsJoined": 500
+        },
+        {
+            "name" : "Major",
+            "level" : 5,
+            "channelsJoined": 2000
+        },
+        {
+            "name" : "Donator",
+            "level" : 6,
+            "channelsJoined": null
+        },
+        {
+            "name" : "Sherpa",
+            "level" : 7,
+            "channelsJoined": null
+        },
+        {
+            "name" : "Colonel / Admin",
+            "level" : 8,
+            "channelsJoined": null
+        },
+        {
+            "name" : "General / Admin",
+            "level" : 9,
+            "channelsJoined": null
+        }
+    ],
+    "GiveawayFrom" : "Corporal",
+    "RankAfterNameChange": "Private",
+    "DefaultRole": "Recruit",
+    "CongratulationsChannel" :"706146211307978775",
+    "UserLogsChannel": "800752763637989376"
+}
