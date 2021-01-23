@@ -11,5 +11,6 @@ Those are the commands you will be able to use:
 }
 
 module.exports.help = {
-    name: "help"
+    name: "help",
+    description: ""
 }

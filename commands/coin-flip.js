@@ -3,5 +3,6 @@ module.exports.run = async(bot,msg,args) => {
 }
 
 module.exports.help = {
-    name: "coin-flip"
+    name: "coin-flip",
+    description: ""
 }

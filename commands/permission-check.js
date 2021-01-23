@@ -35,5 +35,6 @@ module.exports.run = async(bot,msg,args) => {
 }
 
 module.exports.help = {
-    name: "permission-check"
+    name: "permission-check",
+    description: ""
 }

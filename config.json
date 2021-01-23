@@ -56,5 +56,7 @@
     "DefaultRole": "Recruit",
     "CongratulationsChannel" :"706146211307978775",
     "UserLogsChannel": "800752763637989376",
-    "preFix": "!"
+    "preFix": "!",
+    "TicketGroup": "802659421267296306",
+    "TicketLogChannel": "802650628290510899"
 }
