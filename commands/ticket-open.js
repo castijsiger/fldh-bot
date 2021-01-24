@@ -43,6 +43,7 @@ module.exports.run = async (bot, message, args) => {
                     });
 
                     settedParent.updateOverwrite(message.author.id,{
+                        VIEW_CHANNEL: true,
                         create_instant_invite:true,
                         READ_MESSAGES: true,
                         SEND_MESSAGES: true,

@@ -91,8 +91,8 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
             if(rank.channelsJoined < newCount){
               //if the rank you would get is higher than what you are now give rank :D
               if(rank.level > userRank.level){
-                newState.addRole(newState.guild.roles.find(role => role.name === rank.name));
-                newState.removeRole(newState.guild.roles.find(role => role.name === userRank.name));
+                newState.roles.add(newState.guild.roles.cache.find(role => role.name === rank.name));
+                newState.removeRole(newState.guild.roles.cache.find(role => role.name === userRank.name));
                 congratulationChannel.send(`${newState.nickname} has achieved the role of ${rank.name}!!! CONGRATULATIONSSS!! :) `);
                 userLogsChannel.send(`${newState.nickname} has achieved the role of ${rank.name} by joining ${rank.channelsJoined}!!!`);
               }
@@ -141,15 +141,15 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
   const rank = ranks.find(r => r.name == newMember.roles.highest.name);
   console.log(`gevonden rank ${rank.name}`);
 
-  const userLogsChannel = bot.channels.find(c => c.id == config.UserLogsChannel);
+  const userLogsChannel = bot.channels.cache.find(c => c.id == config.UserLogsChannel);
 
  
 
   //if name has been changed.
   if(oldMember.nickname !== newMember.nickname){
     //get the role we want to change someone into after namechange.
-    var roleAfterNameChange = newMember.guild.roles.find(role => role.name === config.RankAfterNameChange);
-    var startRole = newMember.guild.roles.find(role => role.name === config.DefaultRole);
+    var roleAfterNameChange = newMember.guild.roles.cache.find(role => role.name === config.RankAfterNameChange);
+    var startRole = newMember.guild.roles.cache.find(role => role.name === config.DefaultRole);
 
     //get the rank from the config
     var rankAfterNameChangeFromConfig = ranks.find(r => r.name === config.RankAfterNameChange);
@@ -164,7 +164,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
       if(rankAfterNameChangeFromConfig.level > rank.level){
         //send a message to the channel :)
         userLogsChannel.send(`${oldMember.nickname} has changed his name to ${newMember.nickname} and has now received the ${rankAfterNameChangeFromConfig.name} role.`);
-        newMember.addRole(roleAfterNameChange);
+        newMember.roles.add(roleAfterNameChange);
         newMember.removeRole(startRole);
       }
       else{
@@ -178,7 +178,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
       if(rankAfterNameChangeFromConfig.level <= rank.level){
         userLogsChannel.send(`${oldMember.nickname} has changed his name to ${newMember.nickname} and has now lost the ${rankAfterNameChangeFromConfig.name} role. Changed his name to something thats not valid.`)
         //send message someone is probably failing.     
-        newMember.addRole(startRole);
+        newMember.roles.add(startRole);
         newMember.removeRole(roleAfterNameChange);
       }
       else{
@@ -191,14 +191,14 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
   //get the give away role from ranks config
   var giveawayRoleFrom = ranks.find(r => r.name == config.GiveawayFrom);
 
-  //get role givewaways on user
-  var giveAwayRoleOnMember = newMember.roles.find(r => r.name =="Giveaways");
+  //get role givewaways on user\
+  var giveAwayRoleOnMember = newMember.roles.cache.find(r => r.name =="Giveaways");
 
-  var giveawayRole = newMember.guild.roles.find(role => role.name === "Giveaways");
+  var giveawayRole = newMember.guild.roles.cache.find(role => role.name === "Giveaways");
   //if someone doesnt have the give away role yet
   if(!giveAwayRoleOnMember){
     if(rank.level >= giveawayRoleFrom.level){
-      newMember.addRole(giveawayRole);
+      newMember.roles.add(giveawayRole);
       userLogsChannel.send(`${newMember.nickname} has received the giveaway role.`);
     }
   }

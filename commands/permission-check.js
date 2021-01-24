@@ -7,7 +7,7 @@ module.exports.run = async(bot,msg,args) => {
     else{
         msg.channel.send("I'll start looping through the members now... :)");
         const list = bot.guilds.get("706146210876096645");
-        var giveawayRole = bot.guilds.get("706146210876096645").roles.find(role => role.name === "Giveaways");
+        var giveawayRole = bot.guilds.get("706146210876096645").roles.cache.find(role => role.name === "Giveaways");
 
         list.members.forEach(member => {
         var allowedGiveaways = ['Kolonel - Senior Admin','Chief Admin','Sherpa','Luitenant','Sergeant','Korporaal'];
@@ -15,7 +15,7 @@ module.exports.run = async(bot,msg,args) => {
             if(member.highestRole.name === value){
             found = true;
             msg.channel.send(`Added perm giveaways to ${member.nickname}`);
-            member.addRole(giveawayRole).then((response)=>{
+            member.roles.add(giveawayRole).then((response)=>{
                 console.log(response)
             }).catch(e => {
                 console.log(e)
