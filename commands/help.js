@@ -1,16 +1,41 @@
+const fs = require('fs');
+
 module.exports.run = async(bot,msg,args) => {
-    var helpMessage = `Hey! I see you have found the help command :)!
+    var helpMessage = `**Welcome**
+Welcome to the help page of our discord!! 
+    
+I see you have found the help command
 
-Those are the commands you will be able to use:
+**Commands**
+**| Usage | Description **
+| ------- | ------------- 
+`;
+    fs.readdir("./commands", (err, files) => {
+        if (err) console.log(err);
+    
+        var jsFiles = files.filter(f => f.split(".").pop() === "js");
+    
+        if (jsFiles.length <= 0) {
+            console.log("Kon geen files vinden!");
+            return;
+        }
+    
+        jsFiles.forEach((f,i)=>{
+            console.log(" ik loop weer :)")
+            var fileGet = require(`./${f}`);
+       
+            helpMessage = helpMessage.concat(`| **${fileGet.help.usage}** | ${fileGet.help.description}  \r\n`)
+            console.log(helpMessage);
+        })
 
-**!coin-flip** -> Flips a coin (tails or head).
-**!random-map** -> Chooses a random map. You can exclude maps like so: !random-map Factory, Woods.
-**!russian-roulette** -> Chooses a random member on the server to die. MUahahahha
-**!alive** -> Pings the server check if its up and running.`
-    msg.author.sendMessage(helpMessage);
+        msg.author.send(helpMessage);
+    });
 }
+
+
 
 module.exports.help = {
     name: "help",
-    description: ""
+    description: "List all commands :)",
+    usage: "!ticket-open"
 }

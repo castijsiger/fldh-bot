@@ -54,9 +54,9 @@ bot.on('ready', () => {
 
 bot.on('voiceStateUpdate', (oldState, newState) => {
   let ranks = config.Ranks;
-  let userRank =  ranks.find(r => r.name == newState.highestRole.name);
-  const userLogsChannel = bot.channels.find(c => c.id == config.UserLogsChannel);
-  const congratulationChannel = bot.channels.find(c => c.id == config.CongratulationsChannel);
+  let userRank =  ranks.find(r => r.name == newState.member.roles.highest.name);
+  const userLogsChannel = bot.channels.cache.find(c => c.id == config.UserLogsChannel);
+  const congratulationChannel = bot.channels.cache.find(c => c.id == config.CongratulationsChannel);
 
   if(oldState.speaking !== newState.speaking){
     console.log(`Attribute speaking changed`);
@@ -81,7 +81,7 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
   }
   else{
     //find user
-    client.db().collection('member_activity').find({name: newState.user.id}).toArray(function(err, result){
+    client.db().collection('member_activity').find({name: newState.member.user.id}).toArray(function(err, result){
       if(err) throw err;
       if(result.length > 0){
         const newCount = result[0].channelsJoined + 1;
@@ -100,8 +100,8 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
           }
         })
 
-        console.log(`${newState.user.username} has joined ${result[0].channelsJoined} amount of channels`);
-        client.db().collection('member_activity').updateOne({name: newState.user.id}, {$set:  {channelsJoined: newCount, username: newState.user.username}});
+        console.log(`${newState.member.user.username} has joined ${result[0].channelsJoined} amount of channels`);
+        client.db().collection('member_activity').updateOne({name: newState.member.user.id}, {$set:  {channelsJoined: newCount, username: newState.member.user.username}});
       }
       else{
         const object = {
@@ -114,7 +114,7 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
         client.db().collection('member_activity').insertOne(object);
       }
     });
-    console.log(`${newState.user.username} joined the channel cause all above has failed.`);
+    console.log(`${newState.member.user.username} joined the channel cause all above has failed.`);
   }
 });
 
@@ -138,7 +138,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
   const ranks = config.Ranks;
 
   //select the properties of the users highest rank.
-  const rank = ranks.find(r => r.name == newMember.highestRole.name);
+  const rank = ranks.find(r => r.name == newMember.roles.highest.name);
   console.log(`gevonden rank ${rank.name}`);
 
   const userLogsChannel = bot.channels.find(c => c.id == config.UserLogsChannel);

@@ -36,5 +36,6 @@ module.exports.run = async(bot,msg,args) => {
 
 module.exports.help = {
     name: "permission-check",
-    description: ""
+    description: "Tool voor admins. Current not available anymore.",
+    usage: "!permission-check"
 }

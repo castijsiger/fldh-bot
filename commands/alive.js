@@ -4,5 +4,6 @@ module.exports.run = async(bot,msg,args) => {
 
 module.exports.help = {
     name: "alive",
-    description: ""
+    description: "This is a test to see if the discord bot is up and running.",
+    usage: "!alive"
 }

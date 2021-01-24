@@ -38,5 +38,6 @@ module.exports.run = async(bot,msg,args) => {
 
 module.exports.help = {
     name: "random-map",
-    description: ""
+    description: "Don't know which map you want to play? Use this command to select one for you.",
+    usage: "!random-map MapYouWantToExcludeHere"
 }

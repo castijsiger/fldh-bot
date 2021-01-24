@@ -29,5 +29,6 @@ module.exports.run = async(bot,message,args)=>{
 
 module.exports.help = {
     name: "ticket-close",
-    description: ""
+    description: "This ticket is used by admins to close tickets.",
+    usage: "!ticket-close"
 }

@@ -63,5 +63,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "ticket-open",
-    description: ""
+    description: "You can use this command to create a ticket.",
+    usage: "!ticket-open"
 }

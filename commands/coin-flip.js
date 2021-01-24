@@ -4,5 +4,6 @@ module.exports.run = async(bot,msg,args) => {
 
 module.exports.help = {
     name: "coin-flip",
-    description: ""
+    description: "Flips a coin. Head or tails?",
+    usage: "!coin-flip"
 }
