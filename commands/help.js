@@ -37,5 +37,5 @@ I see you have found the help command
 module.exports.help = {
     name: "help",
     description: "List all commands :)",
-    usage: "!ticket-open"
+    usage: "!help"
 }
