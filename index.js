@@ -92,7 +92,7 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
               //if the rank you would get is higher than what you are now give rank :D
               if(rank.level > userRank.level){
                 newState.roles.add(newState.guild.roles.cache.find(role => role.name === rank.name));
-                newState.removeRole(newState.guild.roles.cache.find(role => role.name === userRank.name));
+                newState.roles.remove(newState.guild.roles.cache.find(role => role.name === userRank.name));
                 congratulationChannel.send(`${newState.nickname} has achieved the role of ${rank.name}!!! CONGRATULATIONSSS!! :) `);
                 userLogsChannel.send(`${newState.nickname} has achieved the role of ${rank.name} by joining ${rank.channelsJoined}!!!`);
               }
@@ -139,6 +139,10 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
 
   //select the properties of the users highest rank.
   const rank = ranks.find(r => r.name == newMember.roles.highest.name);
+
+  if(!rank){
+    return;
+  }
   console.log(`gevonden rank ${rank.name}`);
 
   const userLogsChannel = bot.channels.cache.find(c => c.id == config.UserLogsChannel);
@@ -165,7 +169,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
         //send a message to the channel :)
         userLogsChannel.send(`${oldMember.nickname} has changed his name to ${newMember.nickname} and has now received the ${rankAfterNameChangeFromConfig.name} role.`);
         newMember.roles.add(roleAfterNameChange);
-        newMember.removeRole(startRole);
+        newMember.roles.remove(startRole);
       }
       else{
         //only write that someone has changed his/her name :)
@@ -179,7 +183,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) =>{
         userLogsChannel.send(`${oldMember.nickname} has changed his name to ${newMember.nickname} and has now lost the ${rankAfterNameChangeFromConfig.name} role. Changed his name to something thats not valid.`)
         //send message someone is probably failing.     
         newMember.roles.add(startRole);
-        newMember.removeRole(roleAfterNameChange);
+        newMember.roles.remove(roleAfterNameChange);
       }
       else{
         //send message someone is probably failing
