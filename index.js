@@ -1,5 +1,5 @@
 let appInsights = require('applicationinsights');
-new appInsights.start();
+new appInsights.setup().start();
 
 require('dotenv').config();
 
