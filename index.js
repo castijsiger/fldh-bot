@@ -1,5 +1,5 @@
 let appInsights = require('applicationinsights');
-new appInsights.TelemetryClient().start();
+new appInsights.start();
 
 require('dotenv').config();
 
