@@ -9,6 +9,7 @@
   "author": "Michiel Mulders",
   "license": "ISC",
   "dependencies": {
+    "applicationinsights": "^1.8.10",
     "discord.js": "latest",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

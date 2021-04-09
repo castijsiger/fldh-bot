@@ -1,5 +1,7 @@
-require('dotenv').config();
+let appInsights = require('applicationinsights');
+new appInsights.TelemetryClient().start();
 
+require('dotenv').config();
 
 const Discord = require('discord.js');
 const {MongoClient} = require('mongodb');

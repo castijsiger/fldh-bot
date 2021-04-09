@@ -2,8 +2,8 @@ const discord = require("discord.js");
 
 module.exports.run = async(bot,message,args)=>{
 
-    console.log("command is run :D")
-    //!giveaway aantalSpelers tijd berichtjeTekst test test
+    console.log("command is run :D");
+    //!giveaway aantalSpelers tijf berichtjeTekst test test
 
 
     var item = "";
