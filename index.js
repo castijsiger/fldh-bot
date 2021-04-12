@@ -1,5 +1,5 @@
-let appInsights = require('applicationinsights');
-new appInsights.setup().start();
+//let appInsights = require('applicationinsights');
+//new appInsights.setup().start();
 
 require('dotenv').config();
 
@@ -93,10 +93,11 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
             if(rank.channelsJoined < newCount){
               //if the rank you would get is higher than what you are now give rank :D
               if(rank.level > userRank.level){
-                newState.roles.add(newState.guild.roles.cache.find(role => role.name === rank.name));
-                newState.roles.remove(newState.guild.roles.cache.find(role => role.name === userRank.name));
-                congratulationChannel.send(`${newState.nickname} has achieved the role of ${rank.name}!!! CONGRATULATIONSSS!! :) `);
-                userLogsChannel.send(`${newState.nickname} has achieved the role of ${rank.name} by joining ${rank.channelsJoined}!!!`);
+                console.log(newState.member.roles);
+                newState.member.roles.add(newState.guild.roles.cache.find(role => role.name === rank.name));
+                newState.member.roles.remove(newState.guild.roles.cache.find(role => role.name === userRank.name));
+                congratulationChannel.send(`${newState.member.user.username} has achieved the role of ${rank.name}!!! CONGRATULATIONSSS!! :) `);
+                userLogsChannel.send(`${newState.member.user.username} has achieved the role of ${rank.name} by joining ${rank.channelsJoined}!!!`);
               }
             }
           }
@@ -107,12 +108,12 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
       }
       else{
         const object = {
-          name:newState.user.id, 
+          name:newState.member.user.id, 
           channelsJoined: 1,
-          username: newState.user.username
+          username: newState.member.user.username
         };
-        console.log(`${newState.user.username} has joined his first channel whoep whoep`);
-        userLogsChannel.send(`${newState.user.username} has joined his first channel whoep whoep`);
+        console.log(`${newState.member.user.username} has joined his first channel whoep whoep`);
+        userLogsChannel.send(`${newState.member.user.username} has joined his first channel whoep whoep`);
         client.db().collection('member_activity').insertOne(object);
       }
     });
@@ -132,7 +133,7 @@ bot.on('message', msg => {
   //load in the command
   var commands = bot.commands.get(command.slice(prefix.length));
   //execute command
-  if (commands) commands.run(bot,msg,arguments);
+  if (commands) commands.run(bot,msg,arguments, client);
 });
 
 bot.on('guildMemberUpdate', (oldMember, newMember) =>{
